@@ -1,0 +1,1 @@
+INSERT INTO status(descricao) VALUES ('EM_ANALISE'), ('APROVADO'), ('REPROVADO'), ('CONTRATADO')

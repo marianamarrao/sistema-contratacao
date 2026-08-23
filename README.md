@@ -46,7 +46,8 @@ utilizável por qualquer pessoa do RH, sem precisar de Postman ou Insomnia.
 ```
 sistema-contratacao/
 ├── backend/      # API Spring Boot (a adicionar)
-└── frontend/     # Interface React
+├── frontend/     # Interface React
+└── banco_de_dados/   #script inicial do banco de dados
 ```
 
 ## Como rodar o projeto localmente
@@ -55,6 +56,10 @@ sistema-contratacao/
 
 - [Node.js](https://nodejs.org/) 18 ou superior (para o frontend)
 - [JDK](https://adoptium.net/) 17 ou superior e Maven (para o backend)
+
+### Banco de dados (Postgresql)
+
+Rodar o arquivo `script_completo.sql` em um banco de dados Postgresql.
 
 ### Backend (Spring Boot)
 

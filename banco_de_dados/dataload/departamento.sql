@@ -1,0 +1,1 @@
+INSERT INTO departamento(descricao) VALUES ('Tecnologia'), ('Infraestrutura'), ('Compliance'), ('Outro')
