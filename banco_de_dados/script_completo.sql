@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS funcionario(
     ,id_departamento INTEGER REFERENCES departamento(id)
 );
 
-INSERT INTO status(descricao) VALUES ('EM_ANALISE'), ('APROVADO'),
-                                     ('REPROVADO'), ('CONTRATADO');
+INSERT INTO status(descricao) VALUES ('Em Análise'), ('Aprovado'),
+                                     ('Reprovado'), ('Contratado');
 
 INSERT INTO departamento(descricao) VALUES ('Tecnologia'), ('Infraestrutura')
                                          , ('Compliance'), ('Outro');

@@ -1,1 +1,2 @@
-INSERT INTO status(descricao) VALUES ('EM_ANALISE'), ('APROVADO'), ('REPROVADO'), ('CONTRATADO')
+INSERT INTO status(descricao) VALUES ('Em Análise'), ('Aprovado'),
+                                     ('Reprovado'), ('Contratado')
