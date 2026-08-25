@@ -2,13 +2,10 @@ package com.example.backend.INFRASTRUCTURE.dto.funcionario;
 
 import com.example.backend.CORE.model.Departamento;
 import com.example.backend.CORE.model.Status;
-import com.example.backend.INFRASTRUCTURE.dto.departamento.DepartamentoResponse;
-import com.example.backend.INFRASTRUCTURE.dto.status.StatusResponse;
 import jakarta.validation.constraints.Pattern;
 
-public record AllFuncionarioResponse (
-        Integer id
-        ,String nome
+public record AllFuncionarioRequest(
+        String nome
         ,
         @Pattern(
                 regexp = "^[^@\\\\s]+@[^@\\\\s]+\\\\.[^@\\\\s]+$"
@@ -21,8 +18,8 @@ public record AllFuncionarioResponse (
                 ,message = "Digite um telefone válido!"
         )
         String telefone
-        , DepartamentoResponse departamento
-        , StatusResponse status
+        , String departamento
+        , String status
         , String cargo
         , String cidade
         , Double salario
