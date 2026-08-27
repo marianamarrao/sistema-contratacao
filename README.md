@@ -61,6 +61,16 @@ sistema-contratacao/
 
 Rodar o arquivo `script_completo.sql` em um banco de dados Postgresql.
 
+Crie um arquivo .env na raiz do projeto de backend e coloque as seguintes informações:
+
+| Variável          | Banco de dados          |
+|-------------------|-------------------------|
+| DATABASE_HOST     | HOST                    |
+| DATABASE_PORT     | PORTA                   |
+| DATABASE_BANCO    | NOME DO BANCO DE DADOS  |
+| DATABASE_USERNAME | USUÁRIO DE ACESSO       |
+| DATABASE_PASSWORD | SENHA DE ACESSO         |
+
 ### Backend (Spring Boot)
 
 ```bash
