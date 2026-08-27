@@ -1,6 +1,5 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
-import Sidebar from "../components/Sidebar";
 import StatCard from "../components/StatCard";
 import StatusBadge from "../components/StatusBadge";
 import { getInitials } from "../utils/initials";
@@ -67,11 +66,8 @@ function Dashboard() {
   );
 
   return (
-    <div className="app-layout">
-      <Sidebar />
-
-      <main className="main-content">
-        <div className="breadcrumb">PicPay – Sistema de Contratação</div>
+    <main className="main-content">
+      <div className="breadcrumb">PicPay – Sistema de Contratação</div>
         <h1 className="page-title">Dashboard</h1>
 
         <div className="banner">
@@ -168,8 +164,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+    </main>
   );
 }
 
