@@ -48,4 +48,19 @@ public class FuncionarioAdapter implements FuncionarioGateway {
     public boolean emailAlreadyExists(String email){
         return funcionarioRepository.existsByEmail(email);
     }
+
+    @Override
+    public List<Funcionario> findAllByEmail(String valor){
+        return funcionarioRepository.findAllByEmail(valor);
+    }
+
+    @Override
+    public List<Funcionario> findAllByNome(String valor){
+        return funcionarioRepository.findAllByNome(valor);
+    }
+
+    @Override
+    public List<Funcionario> findAllByCargo(String valor){
+        return funcionarioRepository.findAllByCargo(valor);
+    }
 }

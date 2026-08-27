@@ -20,6 +20,8 @@ import com.example.backend.INFRASTRUCTURE.repository.FuncionarioRepository;
 import org.springframework.stereotype.Component;
 
 import javax.swing.text.html.Option;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -240,4 +242,51 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         funcionarioAdapter.deleteFuncionario(id);
     }
 
+
+    public List<AllFuncionarioResponse> getByFilter(String valor){
+        List<Funcionario> funcionariosEncontrados = new ArrayList<>();
+
+        List<Funcionario> funcionarios =
+                (List<Funcionario>) funcionarioAdapter.findAllByCargo(valor);
+        if (funcionarios != null) {
+            funcionariosEncontrados.addAll(funcionarios);
+        }
+
+        funcionarios =
+                (List<Funcionario>) funcionarioAdapter.findAllByNome(valor);
+        if (funcionarios != null) {
+            funcionariosEncontrados.addAll(funcionarios);
+        }
+
+        funcionarios =
+                (List<Funcionario>) funcionarioAdapter.findAllByEmail(valor);
+        if (funcionarios != null) {
+            funcionariosEncontrados.addAll(funcionarios);
+        }
+
+        if(funcionariosEncontrados.isEmpty()){
+            throw new NotFoundException("Não há nenhum funcionário com esse " +
+                    "filtro!");
+        }
+
+        return funcionariosEncontrados.stream().map(
+                f -> new AllFuncionarioResponse(
+                        f.getId()
+                        ,f.getNome()
+                        ,f.getEmail()
+                        ,f.getTelefone()
+                        ,
+                        new DepartamentoResponse(Optional.ofNullable(f.getId_departamento())
+                                .map(Departamento::getDescricao)
+                                .orElse(null))
+                        ,
+                        new StatusResponse(Optional.ofNullable(f.getId_status())
+                                .map(Status::getDescricao)
+                                .orElse(null))
+                        ,f.getCargo()
+                        ,f.getCidade()
+                        ,f.getSalario()
+                )
+        ).toList();
+    }
 }

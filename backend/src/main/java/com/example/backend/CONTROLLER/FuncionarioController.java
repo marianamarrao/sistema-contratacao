@@ -56,5 +56,11 @@ public class FuncionarioController {
                 "deletado com sucesso!");
     }
 
+    @GetMapping("/filtro/{valor}")
+    public ResponseEntity<List<AllFuncionarioResponse>> getByFiltro(@PathVariable(
+            "valor") String valor){
+        return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.getByFilter(valor));
+    }
+
 }
 
