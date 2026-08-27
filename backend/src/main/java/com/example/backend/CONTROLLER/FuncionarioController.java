@@ -55,5 +55,6 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.OK).body("Funcionário " +
                 "deletado com sucesso!");
     }
+
 }
 

@@ -5,7 +5,9 @@ import com.example.backend.CORE.model.Status;
 import com.example.backend.INFRASTRUCTURE.dto.departamento.DepartamentoResponse;
 import com.example.backend.INFRASTRUCTURE.dto.status.StatusResponse;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 
+@Builder
 public record AllFuncionarioResponse (
         Integer id
         ,String nome
