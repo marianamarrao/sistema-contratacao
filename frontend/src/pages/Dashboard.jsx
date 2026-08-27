@@ -1,35 +1,9 @@
-import React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import StatCard from "../components/StatCard";
 import StatusBadge from "../components/StatusBadge";
 import { getInitials } from "../utils/initials";
-
-const candidatos = [
-  {
-    id: 1,
-    nome: "Marcelo Modolo",
-    cargo: "Desenvolvedor Backend",
-    status: "Aprovado",
-  },
-  {
-    id: 2,
-    nome: "Myrna Yoshimoto",
-    cargo: "Cientista de Dados",
-    status: "Reprovado",
-  },
-  {
-    id: 3,
-    nome: "Marcelo Grilo",
-    cargo: "Cientista de Dados",
-    status: "Contratado",
-  },
-  {
-    id: 4,
-    nome: "Mariana",
-    cargo: "Editora",
-    status: "Em Análise",
-  },
-];
+import { buscarFuncionarios } from "../service/candidatoService";
 
 const statusConfig = [
   { label: "Reprovado", color: "FF383C" },
@@ -38,18 +12,22 @@ const statusConfig = [
   { label: "Contratado", color: "61ACED" },
 ];
 
-const departamentos = [
-  { nome: "Tecnologia", valor: 3 },
-  { nome: "Infraestrutura", valor: 3 },
-  { nome: "Compliance", valor: 3 },
-  { nome: "Outro", valor: 3 },
-];
-
 function Dashboard() {
-  const totalCandidatos = candidatos.length;
+  const [funcionarios, setFuncionarios] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    buscarFuncionarios()
+      .then(setFuncionarios)
+      .catch((error) => setErro(error.message))
+      .finally(() => setCarregando(false));
+  }, []);
+
+  const totalCandidatos = funcionarios.length;
 
   const stats = statusConfig.map((status) => {
-    const quantidade = candidatos.filter(
+    const quantidade = funcionarios.filter(
       (candidato) => candidato.status === status.label
     ).length;
 
@@ -61,7 +39,18 @@ function Dashboard() {
     };
   });
 
+  const departamentos = useMemo(() => {
+    const contagem = funcionarios.reduce((resultado, funcionario) => {
+      const departamento = funcionario.departamento || "Sem departamento";
+      resultado[departamento] = (resultado[departamento] || 0) + 1;
+      return resultado;
+    }, {});
+
+    return Object.entries(contagem).map(([nome, valor]) => ({ nome, valor }));
+  }, [funcionarios]);
+
   const maxDepartamento = Math.max(
+    1,
     ...departamentos.map((departamento) => departamento.valor)
   );
 
@@ -85,6 +74,8 @@ function Dashboard() {
             </div>
           </div>
         </div>
+
+        {erro && <div className="table-empty">{erro}</div>}
 
         <div className="stat-cards">
           {stats.map((stat) => (
@@ -111,7 +102,7 @@ function Dashboard() {
             </div>
 
             <div className="candidate-list">
-              {candidatos.map((candidato) => (
+              {!carregando && funcionarios.slice(-4).reverse().map((candidato) => (
                 <div key={candidato.id} className="candidate-row">
                   <div className="candidate-info">
                     <div className="candidate-avatar">
@@ -131,6 +122,10 @@ function Dashboard() {
                   <StatusBadge status={candidato.status} />
                 </div>
               ))}
+              {carregando && <div className="table-empty">Carregando funcionários...</div>}
+              {!carregando && funcionarios.length === 0 && (
+                <div className="table-empty">Nenhum funcionário encontrado.</div>
+              )}
             </div>
           </div>
 

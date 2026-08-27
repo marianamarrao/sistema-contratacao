@@ -1,10 +1,18 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, Plus, Pencil, SquarePen, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import StatusBadge from "../components/StatusBadge";
 import FuncionarioFormModal from "../components/FuncionarioFormModal";
 import QuickEditModal from "../components/QuickEditModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import { getInitials } from "../utils/initials";
+import {
+  atualizarFuncionario,
+  atualizarFuncionarioParcialmente,
+  buscarFuncionarios,
+  criarFuncionario,
+  excluirFuncionario,
+} from "../service/candidatoService";
+
 
 const AVATAR_PALETTE = [
   { bg: "#DCFCE7", color: "#16A34A" },
@@ -13,77 +21,28 @@ const AVATAR_PALETTE = [
   { bg: "#DBEAFE", color: "#2563EB" },
 ];
 
-const INITIAL_FUNCIONARIOS = [
-  {
-    id: 1,
-    nome: "Marcelo Modolo",
-    email: "marcelo.modolo@aura.com.br",
-    cargo: "Engenheiro DevOps",
-    departamento: "Infraestrutura",
-    telefone: "(11) 98765-4321",
-    cidade: "São Paulo",
-    salario: 15000,
-    status: "Aprovado",
-  },
-  {
-    id: 2,
-    nome: "Myrna Yoshimoto",
-    email: "myrna.yoshimoto@aura.com.br",
-    cargo: "Engenheira DevOps",
-    departamento: "Infraestrutura",
-    telefone: "(11) 98765-4322",
-    cidade: "São Paulo",
-    salario: 15000,
-    status: "Reprovado",
-  },
-  {
-    id: 3,
-    nome: "Marcelo Grilo",
-    email: "marcelo.grilo@aura.com.br",
-    cargo: "Engenheiro de Software",
-    departamento: "Tecnologia",
-    telefone: "11 965810-2222",
-    cidade: "São Paulo",
-    salario: 22222,
-    status: "Contratado",
-  },
-  {
-    id: 4,
-    nome: "Mariana Alves",
-    email: "mariana.alves@aura.com.br",
-    cargo: "Editora",
-    departamento: "Compliance",
-    telefone: "(11) 98765-4324",
-    cidade: "São Paulo",
-    salario: 8500,
-    status: "Em Análise",
-  },
-  {
-    id: 5,
-    nome: "Marcos Prado",
-    email: "marcos.prado@aura.com.br",
-    cargo: "Engenheiro DevOps",
-    departamento: "Infraestrutura",
-    telefone: "(11) 98765-4325",
-    cidade: "São Paulo",
-    salario: 15000,
-    status: "Aprovado",
-  },
-];
-
 const STATUS_FILTERS = ["Todos os status", "Em Análise", "Aprovado", "Reprovado", "Contratado"];
 const PAGE_SIZE = 5;
 
 function Funcionarios() {
-  const [funcionarios, setFuncionarios] = useState(INITIAL_FUNCIONARIOS);
+  const [funcionarios, setFuncionarios] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
   const [busca, setBusca] = useState("");
   const [buscaId, setBuscaId] = useState("");
   const [statusFiltro, setStatusFiltro] = useState("Todos os status");
   const [departamentoFiltro, setDepartamentoFiltro] = useState("Todos os departamentos");
   const [page, setPage] = useState(1);
 
-  const [modalAberto, setModalAberto] = useState(null); // "cadastrar" | "editar" | "editarParcial" | "excluir"
+  const [modalAberto, setModalAberto] = useState(null);
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
+
+  useEffect(() => {
+    buscarFuncionarios()
+      .then(setFuncionarios)
+      .catch((error) => setErro(error.message))
+      .finally(() => setCarregando(false));
+  }, []);
 
   const departamentos = useMemo(() => {
     const unicos = new Set(funcionarios.map((f) => f.departamento).filter(Boolean));
@@ -140,33 +99,48 @@ function Funcionarios() {
     setFuncionarioSelecionado(null);
   };
 
-  const handleCadastrar = (dados) => {
-    setFuncionarios((prev) => [
-      ...prev,
-      { ...dados, id: Math.max(0, ...prev.map((f) => f.id)) + 1 },
-    ]);
+  const handleCadastrar = async (dados) => {
+    try {
+      const funcionario = await criarFuncionario(dados);
+      setFuncionarios((prev) => [...prev, funcionario]);
+    } catch (error) {
+      setErro(error.message);
+    }
   };
 
-  const handleSalvarEdicao = (dados) => {
-    setFuncionarios((prev) =>
-      prev.map((f) => (f.id === funcionarioSelecionado.id ? { ...f, ...dados } : f))
-    );
+  const handleSalvarEdicao = async (dados) => {
+    try {
+      const funcionario = await atualizarFuncionario(funcionarioSelecionado.id, dados);
+      setFuncionarios((prev) => prev.map((item) => (item.id === funcionario.id ? funcionario : item)));
+    } catch (error) {
+      setErro(error.message);
+    }
   };
 
-  const handleSalvarParcial = (dados) => {
-    setFuncionarios((prev) =>
-      prev.map((f) => (f.id === funcionarioSelecionado.id ? { ...f, ...dados } : f))
-    );
+  const handleSalvarParcial = async (dados) => {
+    try {
+      const funcionario = await atualizarFuncionarioParcialmente(funcionarioSelecionado.id, dados);
+      setFuncionarios((prev) => prev.map((item) => (item.id === funcionario.id ? funcionario : item)));
+    } catch (error) {
+      setErro(error.message);
+    }
   };
 
-  const handleExcluir = () => {
-    setFuncionarios((prev) => prev.filter((f) => f.id !== funcionarioSelecionado.id));
+  const handleExcluir = async () => {
+    try {
+      await excluirFuncionario(funcionarioSelecionado.id);
+      setFuncionarios((prev) => prev.filter((item) => item.id !== funcionarioSelecionado.id));
+    } catch (error) {
+      setErro(error.message);
+    }
   };
 
   return (
     <main className="main-content">
       <div className="breadcrumb">PicPay – Sitema de Contratação</div>
       <h1 className="page-title">Funcionários</h1>
+
+      {erro && <div className="table-empty">{erro}</div>}
 
       <div className="funcionarios-toolbar">
         <div className="search-input">
@@ -242,7 +216,13 @@ function Funcionarios() {
           </thead>
 
           <tbody>
-            {funcionariosPagina.map((funcionario, index) => {
+            {carregando && (
+              <tr>
+                <td colSpan={7} className="table-empty">Carregando funcionários...</td>
+              </tr>
+            )}
+
+            {!carregando && funcionariosPagina.map((funcionario, index) => {
               const avatar = AVATAR_PALETTE[index % AVATAR_PALETTE.length];
 
               return (
@@ -321,7 +301,7 @@ function Funcionarios() {
               );
             })}
 
-            {funcionariosPagina.length === 0 && (
+            {!carregando && funcionariosPagina.length === 0 && (
               <tr>
                 <td colSpan={7} className="table-empty">
                   Nenhum funcionário encontrado.
