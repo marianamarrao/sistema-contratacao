@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS status(
+    id SERIAL PRIMARY KEY
+    ,descricao VARCHAR(15)
+);
