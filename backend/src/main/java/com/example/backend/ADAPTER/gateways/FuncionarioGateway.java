@@ -19,4 +19,11 @@ public interface FuncionarioGateway {
     void deleteFuncionario(Integer id);
 
     boolean emailAlreadyExists(String email);
+
+    List<Funcionario> findAllByNome(String valor);
+
+    List<Funcionario> findAllByCargo(String valor);
+
+    List<Funcionario> findAllByEmail(String valor);
+
 }
