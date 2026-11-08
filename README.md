@@ -10,8 +10,7 @@ Spring Boot com uma interface Front-end em React.
 ## Sobre o desafio
 
 O backend expõe uma API REST que implementa os cinco métodos HTTP estudados
-(POST, GET, PUT, PATCH, DELETE), armazenando os candidatos em memória (`ArrayList`,
-sem banco de dados). O Front-end consome essa API para oferecer uma interface
+(POST, GET, PUT, PATCH, DELETE), armazenando os candidatos em um banco PostgreSQL. O Front-end consome essa API para oferecer uma interface
 utilizável por qualquer pessoa do RH, sem precisar de Postman ou Insomnia.
 
 **Tecnologia de Front-end escolhida:** React (com Vite), estilizado com CSS puro
@@ -34,7 +33,8 @@ utilizável por qualquer pessoa do RH, sem precisar de Postman ou Insomnia.
 **Backend**
 - Java 17+
 - Spring Boot
-- Spring MVC
+- Spring MVC + Spring Data JPA
+- PostgreSQL (Neon em produção)
 
 **Frontend**
 - React + Vite
@@ -70,6 +70,10 @@ Crie um arquivo .env na raiz do projeto de backend e coloque as seguintes inform
 | DATABASE_BANCO    | NOME DO BANCO DE DADOS  |
 | DATABASE_USERNAME | USUÁRIO DE ACESSO       |
 | DATABASE_PASSWORD | SENHA DE ACESSO         |
+| DATABASE_SSLMODE  | `require` (Neon) ou `prefer` (local, padrão) |
+| CORS_ALLOWED_ORIGINS | Origens do front, separadas por vírgula (padrão `http://localhost:5173`) |
+
+Use `backend/.env.example` como modelo. Nunca versione o `.env`.
 
 ### Backend (Spring Boot)
 

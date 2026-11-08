@@ -1,0 +1,15 @@
+# Segredos
+.env
+*.env
+!.env.example
+
+# Dependências / build
+node_modules/
+target/
+dist/
+
+# IDE / SO
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
