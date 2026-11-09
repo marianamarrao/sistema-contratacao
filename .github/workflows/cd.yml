@@ -50,7 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Disparar deploy no Render (Deploy Hook)
-        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: curl -fsS --max-time 30 -X POST "$RENDER_DEPLOY_HOOK_URL" > /dev/null
 
       - name: Aguardar API responder (health-check)
         run: |
