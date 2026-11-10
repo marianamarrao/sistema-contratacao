@@ -57,10 +57,13 @@ jobs:
       - name: Aguardar API responder (health-check)
         run: |
           for i in $(seq 1 30); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "${{ vars.BACKEND_URL }}/funcionarios" || true)
+            code=$(curl -s -o resp.json -w '%{http_code}' "${{ vars.BACKEND_URL }}/funcionarios" || true)
             echo "Tentativa $i: HTTP $code"
-            # 200 = há dados; 404 = API no ar, mas lista vazia (resposta normal desta API)
-            [ "$code" = "200" ] || [ "$code" = "404" ] && exit 0
+            # 200 = há dados. 404 só vale se o corpo trouxer o campo "mensagem",
+            # que identifica a resposta desta API para lista vazia (e não um 404 de URL errada).
+            if [ "$code" = "200" ] || { [ "$code" = "404" ] && grep -q '"mensagem"' resp.json; }; then
+              exit 0
+            fi
             sleep 20
           done
           echo "API não respondeu a tempo" && exit 1
