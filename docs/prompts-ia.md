@@ -27,7 +27,7 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 
 ### P5 — CD (Release + Deploy)
 **Prompt:** Crie `.github/workflows/cd.yml` disparado por `workflow_run` do workflow "CI" (completed, branches main) com `if: conclusion == 'success' && event == 'push'` em todos os jobs. Jobs: (1) Release — build e push da imagem no Docker Hub com docker/build-push-action, tags `latest` e SHA, secrets DOCKER_USERNAME/DOCKER_PASSWORD; (2) Deploy backend — POST no Deploy Hook do Render (secret) e health-check com retry; (3) Deploy frontend — build com `VITE_API_URL` e `actions/deploy-pages`. Liste secrets, permissões e configurações manuais necessárias.
-**Resultado obtido:** `.github/workflows/cd.yml` criado (Release no Docker Hub, Deploy no Render e Pages), com o ajuste do Deploy Hook via `env` sugerido pelo CodeRabbit. Ainda não executado: depende do merge e da configuração do Render e do Pages.
+**Resultado obtido:** `.github/workflows/cd.yml` criado (Release no Docker Hub, Deploy no Render e Pages), com o ajuste do Deploy Hook via `env` sugerido pelo CodeRabbit. Primeira execução após o merge do PR #9: o Release publicou a imagem no Docker Hub (evidência 06) e o Deploy backend falhou por ainda não existir o hook do Render; o Deploy frontend foi pulado por depender dele. Falta configurar Render e Pages.
 **Arquivos:** adicionado `.github/workflows/cd.yml`.
 
 ### P6 — Diagnóstico de falhas reais
@@ -75,3 +75,5 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 | [02-run-ci-frontend-verde.png](evidencias/02-run-ci-frontend-verde.png) | Run `#24` do CI: job Frontend com checkout, setup do Node 20, instalação de dependências, lint, build e upload do artefato `dist` concluídos | P3 |
 | [03-pr9-historico-de-commits.png](evidencias/03-pr9-historico-de-commits.png) | Histórico de commits do PR #9, com o resultado dos checks em cada commit, incluindo o commit de correção do `mvnw` | P6, linha 6 |
 | [04-run-ci-backend-vermelho-mvnw.png](evidencias/04-run-ci-backend-vermelho-mvnw.png) | Run vermelho do CI: job Backend falhou em `./mvnw -B verify` com `Permission denied` (exit 126) | P6, linha 6 |
+| [05-run-ci-main-verde.png](evidencias/05-run-ci-main-verde.png) | Run `#26` do CI na `main` (`on: push`), disparado pelo merge do PR #9: jobs Backend e Frontend verdes, com 1 artefato | CI em push na `main` |
+| [06-dockerhub-imagem-publicada.png](evidencias/06-dockerhub-imagem-publicada.png) | Repositório `marianamarrao/sistema-contratacao-backend` no Docker Hub, com a tag `latest` atualizada pelo Release do CD | P5, etapa Release |
