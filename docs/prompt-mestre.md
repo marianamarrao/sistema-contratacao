@@ -4,7 +4,7 @@
 
 ## Prompt
 
-Você vai me ajudar a criar a pipeline CI/CD do meu projeto `sistema-contratacao` (GitHub: `marianamarrao/sistema-contratacao`) usando GitHub Actions, para a atividade **"LAB – DevOps – Pipeline CI/CD com IA Generativa"** do Instituto J&F.
+Você vai me ajudar a criar a pipeline CI/CD do meu projeto `sistema-contratacao` (GitHub: `marianamarrao/sistema-contratacao`) usando GitHub Actions, para a atividade **"LAB – DevOps – Pipeline CI/CD com IA Generativa"**.
 
 ### Documentos que estou disponibilizando (leia tudo antes de começar)
 1. **`Lab CICD-Pipeline.pdf`** — o enunciado. É a especificação que a pipeline deve cumprir.
