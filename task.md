@@ -1,5 +1,7 @@
 # task.md — Pipeline CI/CD (Lab DevOps)
 
+Fonte: enunciado do lab (`Lab CICD-Pipeline.pdf`) e aulas 07 (CI) e 08 (GitHub Actions + Docker); plano completo em `docs/prompt-mestre.md`.
+
 Projeto: `sistema-contratacao` (backend Spring Boot 4.1.1 / Java 17 / Maven, frontend React 19 + Vite 8, PostgreSQL no **Neon**).
 Estratégia: **Build → Test → Release → Deploy** (aula 07), com imagem Docker no **Docker Hub** (aula 08), backend no **Render**, frontend no **GitHub Pages**.
 
