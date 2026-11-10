@@ -8,30 +8,37 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 ### P1 — Planejamento
 **Prompt:** Contexto: monorepo `sistema-contratacao` com `backend/` (Spring Boot 4.1.1, Java 17, Maven wrapper, PostgreSQL via DATABASE_*) e `frontend/` (React 19 + Vite 8, npm, oxlint). Leia o enunciado do lab e os slides 07 (CI) e 08 (Actions + Docker). Gere `task.md` com fases, checklist, riscos e verificação. Não escreva código.
 **Resultado obtido:** Plano aprovado e `task.md` criado. Os slides 07/08 foram lidos por extração de texto (`pdftotext`) e o plano foi ajustado para incluir Docker Hub (Release) e Neon como banco.
+**Arquivos:** adicionados `task.md`, `docs/prompt-mestre.md` e `docs/prompts-ia.md`.
 
 ### P2 — Preparação do repositório
 **Prompt:** Prepare o repo para CI/CD sem quebrar o uso local: `.gitignore` raiz, `backend/.env.example`, compiler 8→17 no `pom.xml`, `sslmode` configurável em `application.properties` (Neon, sem channel_binding), CORS por env com PATCH em `WebConfig.java`, `base`/`VITE_API_URL` no Vite. Mostre o diff e rode `./mvnw -B verify` e `npm run build`.
 **Resultado obtido:** Criados `.gitignore` e `backend/.env.example`; compiler passou para Java 17; `sslmode` e CORS (com `PATCH`) configuráveis por variável de ambiente; `VITE_BASE` no Vite; README atualizado. Backend compila e o frontend passa no lint e no build.
+**Arquivos:** adicionados `.gitignore` e `backend/.env.example`; alterados `backend/pom.xml`, `backend/src/main/resources/application.properties`, `backend/src/main/java/com/example/backend/INFRASTRUCTURE/config/WebConfig.java`, `frontend/vite.config.js` e `README.md`.
 
 ### P3 — CI
 **Prompt:** Crie `.github/workflows/ci.yml` com nomes de jobs/steps em português seguindo Build → Test: gatilhos push e pull_request na `main`; job backend (checkout@v4, setup-java@v4 temurin 17 com cache maven, `./mvnw -B verify` em `backend/` com secrets DATABASE_*); job frontend (setup-node@v4 Node 20, `npm ci`, `npm run lint`, `npm run build`, upload-artifact@v4 do `dist`). `permissions: contents: read` e `concurrency`. Valide a sintaxe antes de commitar.
 **Resultado obtido:** `.github/workflows/ci.yml` criado com os jobs backend e frontend. Falhou no primeiro run por `mvnw` sem permissão de execução (ver P6) e passou no PR #9 depois da correção (run verde https://github.com/marianamarrao/sistema-contratacao/actions/runs/42721304942).
+**Arquivos:** adicionado `.github/workflows/ci.yml`.
 
 ### P4 — Dockerfile
 **Prompt:** Crie `backend/Dockerfile` multi-stage (JDK 17 + mvnw `-DskipTests package` → JRE 17), `EXPOSE 8080`, usuário não-root, `.dockerignore`; DATABASE_* só em runtime. Rode `docker build` e `docker run` com envs do `.env` local.
 **Resultado obtido:** `backend/Dockerfile` e `.dockerignore` criados. `docker build` conclui e `docker run` sobe em Java 17 como usuário não-root, falhando só ao conectar no banco (esperado sem credenciais).
+**Arquivos:** adicionados `backend/Dockerfile` e `backend/.dockerignore`.
 
 ### P5 — CD (Release + Deploy)
 **Prompt:** Crie `.github/workflows/cd.yml` disparado por `workflow_run` do workflow "CI" (completed, branches main) com `if: conclusion == 'success' && event == 'push'` em todos os jobs. Jobs: (1) Release — build e push da imagem no Docker Hub com docker/build-push-action, tags `latest` e SHA, secrets DOCKER_USERNAME/DOCKER_PASSWORD; (2) Deploy backend — POST no Deploy Hook do Render (secret) e health-check com retry; (3) Deploy frontend — build com `VITE_API_URL` e `actions/deploy-pages`. Liste secrets, permissões e configurações manuais necessárias.
 **Resultado obtido:** `.github/workflows/cd.yml` criado (Release no Docker Hub, Deploy no Render e Pages), com o ajuste do Deploy Hook via `env` sugerido pelo CodeRabbit. Ainda não executado: depende do merge e da configuração do Render e do Pages.
+**Arquivos:** adicionado `.github/workflows/cd.yml`.
 
 ### P6 — Diagnóstico de falhas reais
 **Prompt:** O run `<link>` falhou com este log: `<trecho>`. Explique a causa, proponha a menor correção e mostre só o trecho alterado. Depois re-execute e confirme.
 **Resultado obtido:** Causa identificada: `./mvnw: Permission denied` (exit 126) no run https://github.com/marianamarrao/sistema-contratacao/actions/runs/42719135193. Corrigido com `git update-index --chmod=+x backend/mvnw`, e o run seguinte passou.
+**Arquivos:** alterado `backend/mvnw` (permissão de execução, modo `100755`).
 
 ### P7 — Validação final contra a especificação
 **Prompt:** Releia o enunciado do lab e os slides 07/08. Para cada item, responda em tabela (item · cumprido? · evidência · correção): CI em push e PR na main; checkout; setup do ambiente; instalação de dependências; teste/validação; CD só após push na main com CI verde (prove com um run vermelho); deploy automático em ambiente acessível; estratégia justificada; alinhamento às aulas (Build/Test/Release/Deploy, upload-artifact, docker build-push, secrets); nenhum segredo no repo/histórico/logs; registro de prompts completo. Corrija o que faltar antes de seguir.
 **Resultado obtido:** Ainda não executado: será feito depois do merge e do deploy, com evidências.
+**Arquivos:** nenhum até o momento.
 
 ## Registro de execução
 
@@ -56,3 +63,5 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 **Nota de aprendizado:** a autora valorizou entender o que a pipeline faz, e não apenas obtê-la pronta. Por isso pediu explicações do código, conferiu os runs no GitHub, questionou o registro de prompts e corrigiu a abordagem do plano mais de uma vez. O material de estudo está em `docs/explicacao-codigo.md`.
 
 *Os prompts de conversa das linhas 1, 8 e 15 estão resumidos e reescritos para clareza; o sentido original foi mantido.*
+
+**Arquivos da explicação do código (linha 15):** adicionado `docs/explicacao-codigo.md`.
