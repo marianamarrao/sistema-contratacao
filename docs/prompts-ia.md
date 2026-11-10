@@ -33,7 +33,7 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 
 | # | Prompt | Resultado | Problema encontrado | Alteração | IA / Manual |
 |---|--------|-----------|---------------------|-----------|-------------|
-| 1 | Prompt mestre ([docs/prompt-mestre.md](prompt-mestre.md)): enunciado do lab + slides 07 e 08 fornecidos; "vamos fazer um task.md/planejamento primeiro" | Plano e `task.md` | Slides 07/08 só lidos após extrair texto com `pdftotext` (`pdftoppm` ausente) | Plano ajustado: Docker Hub (Release), Neon em vez de Aiven | IA |
+| 1 | Prompt base ([docs/prompt-mestre.md](prompt-mestre.md)): enunciado do lab + slides 07 e 08 fornecidos; "vamos fazer um task.md/planejamento primeiro" | Plano e `task.md` | Slides 07/08 só lidos após extrair texto com `pdftotext` (`pdftoppm` ausente) | Plano ajustado: Docker Hub (Release), Neon em vez de Aiven | IA |
 | 2 | P2 — preparar repositório (Fase 1) | `.gitignore`, `.env.example`, `release 17`, `sslmode` e CORS por env (com PATCH), `VITE_BASE` | Edit do `pom.xml` falhou (CRLF) → usado `sed`; `npm run build` quebra no caminho com `&` (OneDrive) | Build/lint rodados via `node node_modules/...`; backend `package` OK | IA |
 | 3 | P3 — CI (`ci.yml`) | Jobs backend (Java 17, `mvnw verify`, secrets DATABASE_*) e frontend (Node 20, lint, build, upload-artifact) | Ainda não executado no GitHub: exige cadastrar os secrets DATABASE_* | — | IA |
 | 4 | P4 — Dockerfile | `backend/Dockerfile` multi-stage (JDK 17 → JRE 17, usuário não-root) + `.dockerignore` | `docker build` e `docker run` testados localmente (sobe em Java 17, usuário não-root, falha só ao conectar no banco, como esperado) | — | IA |
