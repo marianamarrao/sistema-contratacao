@@ -7,7 +7,11 @@
 
 ## 1. Projeto e pipeline
 
-O projeto é o **Sistema de Contratação**: backend Spring Boot (Java 17) com PostgreSQL e frontend React + Vite. Criei uma pipeline com dois workflows do GitHub Actions:
+O projeto é o **Sistema de Contratação**: backend Spring Boot (Java 17) com PostgreSQL e frontend React + Vite.
+
+**Autoria:** o sistema (backend, frontend e banco) foi desenvolvido anteriormente em grupo, com os colegas Davi do Nascimento Costa e Lorenzo Lima de Oliveira, como projeto da disciplina de Desenvolvimento. A parte pedida neste enunciado, **adicionar a CI/CD ao projeto**, foi feita por mim, com apoio de IA nas tarefas permitidas e com a validação de cada etapa por mim. Isso inclui os workflows, o `Dockerfile`, os ajustes de configuração necessários para publicar o sistema e a configuração dos serviços de deploy.
+
+Criei uma pipeline com dois workflows do GitHub Actions:
 
 - **CI (`.github/workflows/ci.yml`)** — roda em `push` e em `pull_request` na `main`. Faz checkout, configura Java 17 e Node 20, instala dependências, compila e testa o backend (`./mvnw verify`, contra um banco PostgreSQL no Neon) e executa lint e build do frontend, guardando o `dist` como artefato.
 - **CD (`.github/workflows/cd.yml`)** — roda quando o CI termina na `main` e **só segue se o CI foi concluído com sucesso e o evento foi push**. Tem três etapas encadeadas: **Release** (build e publicação da imagem Docker no Docker Hub), **Deploy do backend** (Render, acionado por Deploy Hook, com health-check) e **Deploy do frontend** (GitHub Pages).
