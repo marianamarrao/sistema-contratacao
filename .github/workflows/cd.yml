@@ -59,7 +59,8 @@ jobs:
           for i in $(seq 1 30); do
             code=$(curl -s -o /dev/null -w '%{http_code}' "${{ vars.BACKEND_URL }}/funcionarios" || true)
             echo "Tentativa $i: HTTP $code"
-            [ "$code" = "200" ] && exit 0
+            # 200 = há dados; 404 = API no ar, mas lista vazia (resposta normal desta API)
+            [ "$code" = "200" ] || [ "$code" = "404" ] && exit 0
             sleep 20
           done
           echo "API não respondeu a tempo" && exit 1
