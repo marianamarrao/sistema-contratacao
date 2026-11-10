@@ -1,4 +1,4 @@
-# Prompt mestre — Pipeline CI/CD
+# Prompt base — Pipeline CI/CD
 
 > Prompt base do projeto: reúne o plano em um único texto, que serviu de ponto de partida. Não foi o único prompt: ele foi complementado por vários outros ao longo da execução, todos registrados em [prompts-ia.md](prompts-ia.md). Segredos aparecem como `<PLACEHOLDER>`; os valores reais ficam só em GitHub Secrets / env do Render.
 
