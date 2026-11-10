@@ -26,9 +26,6 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 ### P7 — Validação final contra a especificação
 **Prompt:** Releia o enunciado do lab e os slides 07/08. Para cada item, responda em tabela (item · cumprido? · evidência · correção): CI em push e PR na main; checkout; setup do ambiente; instalação de dependências; teste/validação; CD só após push na main com CI verde (prove com um run vermelho); deploy automático em ambiente acessível; estratégia justificada; alinhamento às aulas (Build/Test/Release/Deploy, upload-artifact, docker build-push, secrets); nenhum segredo no repo/histórico/logs; registro de prompts completo. Corrija o que faltar antes de seguir.
 
-### P8 — Análise final
-**Prompt:** Com base neste registro, escreva a análise: (1) nº de prompts até a versão final; (2) principais problemas; (3) alterações necessárias; (4) alterações manuais; (5) como verifiquei o funcionamento. Inclua a justificativa da estratégia de deploy (Render + GitHub Pages + Docker Hub + Neon).
-
 ## Registro de execução
 
 | # | Prompt | Resultado | Problema encontrado | Alteração | IA / Manual |

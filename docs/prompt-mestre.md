@@ -40,4 +40,3 @@ Monorepo com `backend/` (Spring Boot 4.1.1, Java 17, Maven wrapper, PostgreSQL v
 - Commits **sem** coautoria do Claude e sem a linha "Generated with Claude Code" em PRs.
 - Nada de credenciais em arquivos versionados, prompts ou prints do PDF.
 - Quando algo depender de uma ação minha (criar conta, cadastrar token, habilitar Pages), me diga exatamente o que fazer.
-- Ao final, entregue o material para um único PDF: link do repo, os `.yml`, os prompts, o registro de alterações, a análise (nº de prompts, problemas, alterações necessárias e manuais, como verifiquei) e as evidências.

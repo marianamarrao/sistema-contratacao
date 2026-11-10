@@ -45,7 +45,7 @@ Estratégia: **Build → Test → Release → Deploy** (aula 07), com imagem Doc
 - [ ] Nenhum segredo no repo, histórico, logs ou PDF
 - [ ] Registro de prompts completo + respostas às 5 perguntas finais
 
-## Fase 6 — Entrega (um único PDF)
+## Fase 6 — Entrega (um único PDF, elaborado pela autora)
 - [ ] Link do repo · `ci.yml`/`cd.yml` · prompts · registro de alterações · análise · evidências (prints dos runs e do app)
 
 ## Riscos
