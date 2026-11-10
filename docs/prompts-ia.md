@@ -66,3 +66,12 @@ Placeholders `<...>` nunca são substituídos por segredos reais neste arquivo.
 *Os prompts de conversa das linhas 1, 8 e 15 estão resumidos e reescritos para clareza; o sentido original foi mantido.*
 
 **Arquivos da explicação do código (linha 15):** adicionado `docs/explicacao-codigo.md`.
+
+## Evidências (prints)
+
+| Print | O que mostra | Relaciona-se a |
+|---|---|---|
+| [01-pr9-checks-verdes.png](evidencias/01-pr9-checks-verdes.png) | PR #9 aberto, aba Checks do último commit: CI (`on: pull_request`) com os jobs Backend (Java 17) e Frontend (Node 20) verdes | P3, linha 3 |
+| [02-run-ci-frontend-verde.png](evidencias/02-run-ci-frontend-verde.png) | Run `#24` do CI: job Frontend com checkout, setup do Node 20, instalação de dependências, lint, build e upload do artefato `dist` concluídos | P3 |
+| [03-pr9-historico-de-commits.png](evidencias/03-pr9-historico-de-commits.png) | Histórico de commits do PR #9, com o resultado dos checks em cada commit, incluindo o commit de correção do `mvnw` | P6, linha 6 |
+| [04-run-ci-backend-vermelho-mvnw.png](evidencias/04-run-ci-backend-vermelho-mvnw.png) | Run vermelho do CI: job Backend falhou em `./mvnw -B verify` com `Permission denied` (exit 126) | P6, linha 6 |
