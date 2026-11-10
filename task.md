@@ -47,9 +47,3 @@ Estratégia: **Build → Test → Release → Deploy** (aula 07), com imagem Doc
 
 ## Fase 6 — Entrega (um único PDF, elaborado pela autora)
 - [ ] Link do repo · `ci.yml`/`cd.yml` · prompts · registro de alterações · análise · evidências (prints dos runs e do app)
-
-## Riscos
-- PRs de forks não recebem secrets → testes do backend falham.
-- `ddl-auto=update` roda contra banco real → preferir branch/banco Neon separado para CI.
-- Neon free "dorme" → primeiro teste/health-check pode demorar; usar retry.
-- Render free dorme e demora no cold start → health-check com timeout generoso.
